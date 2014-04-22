@@ -9,6 +9,13 @@ It has a simple programming interface that allows a developer to manage all View
 
 The only library requirements are backbone.js and any version of jQuery.
 
+## Demo:
+I built a real SPA (Single Page Application) using the StackView class.
+In fact, it's a really nice boilerplate Backbone application that uses everything one needs in an App including (of course) StackViews, Login, Localization, Cookie and more.
+View the Demo StackView app here: https://secure.digitalsignage.com/boilerplate/public/index.html
+and for Backbone Boiler application source code go here: https://github.com/born2net/Backbone-boilerplate-and-StackView
+
+
 ## Backbone.StackView.ViewPort
 A ViewPort is a Backbone.View responsible for rendering other views inside of it (one at a time) and serves as a base class for other Backbone.StackView sub-classes.
 Normally you will not instantiate Backbone.StackView.ViewPort directly but instead use one of it's derived classed:
@@ -92,6 +99,8 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
 });
 ```
 
+And as mentioned earlier, a Backbone.StackView comes in three flavours, Fade, Slide and Popup. You can watch all 3 in the demo SPA link.
+
 Here is an example of creating a popup modal view.
 ```javascript
 _initModal: function () {
@@ -120,16 +129,8 @@ Here is an example of StackView.Slider view.
 We use constants in place of element IDs just to keep it from referencing it in source code, you don't have to.
 
 
-
 ```javascript
 
-
-/**
- Select new screen layout (template) for a campaign > timeline
- @class ScreenLayoutSelectorView
- @constructor
- @return {Object} instantiated ScreenLayoutSelectorView
- **/
 define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
 
     var ScreenLayoutSelectorView = BB.View.extend({
@@ -194,6 +195,9 @@ define(['jquery', 'backbone'], function ($, Backbone) {
 
 });
 
+
+...
+
   var self = this;
 
   Elements.ORIENTATION_SELECTOR = '#orientationSelector';
@@ -219,9 +223,10 @@ define(['jquery', 'backbone'], function ($, Backbone) {
   self.m_campaignSliderStackView.addView(self.m_resolutionSelectorView);
   self.m_campaignSliderStackView.addView(self.m_screenLayoutSelectorView);
   self.m_campaignSliderStackView.selectView(self.m_campaignSelectorView);
+
 ```
 
-And as mentioned earlier, a Backbone.StackView comes in three flavours, Fade, Slide and Popup. You can watch all 3 in the demo SPA link.
+
 
 ## StackView API
 
