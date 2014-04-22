@@ -52,7 +52,7 @@ myStackView.selectView('#somePanel1');
 This will allow you to easily select vanilla Backbone.views, and these views can reside anywhere in the DOM (if you are using Fader) and StackView will simply hide or show the selected Backbone.View.
 
 StackView base class holds a list of all Views is manages so you can always ask for a view by its ID. StackView will also fire an event when a View is selected and pass in the even the selected view instance so subscribers can handle the event.
-Here is an example of a Backbone subscriber that's interested only in SELECTED_STACK_VIEW events that are "intended for him":
+Here is an example of a Backbone subscriber that's interested only in SELECTED_STACK_VIEW event that are "intended for him":
 
 ```javascript
 listenWhenIamBroghtIntoView: function () {
@@ -64,27 +64,6 @@ listenWhenIamBroghtIntoView: function () {
    ...
 },
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 You can also easily extend one of the StackViews and add your own functionality or override excising methods.
 ```javascript
@@ -112,6 +91,84 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
     return AppContentFaderView;
 });
 ```
+
+Here is an example of creating a popup modal view.
+```javascript
+_initModal: function () {
+    var self = this;
+    var popModalView = new Backbone.StackView.Modal({
+         el: '#someModalId',
+         animation: 'slide_top', //or 'fade' or ...
+         bgColor: 'white'
+     });
+     var aView = new Backbone.View({el: '#someElemebt'});
+     popModalView.addView(aView);
+
+     var bView = new Backbone.View({el: '#anotherID'});
+     popModalView.addView(bView);
+
+     var cView =  = new Backbone.View({el: '#andAnotherID'});
+     popModalView.addView(cView);
+
+     popModalView.selectView(cView);
+     // or popModalView.selectView('#andAnotherID');
+}
+
+```
+
+And as mentioned earlier, a Backbone.StackView comes in three flavours, Fade, Slide and Popup. You can watch all 3 in the demo SPA link.
+
+## StackView API
+
+### `addView(i_view)`
+Add a view to StackView using an element id or Backbone.View instance
+
+### `getViews()`
+Get all registered views
+
+### `getViewByID(i_id)`
+Find a registered backbone view by its id or cid
+
+### `selectView(i_view)`
+Select a view to present in the DOM, implementation varies per derived class
+
+### `selectIndex(i_index) // StackView.Fader only`
+Select a stack view using an offset index
+
+### `slideToPage(i_toView, i_direction) // StackView.SlideView only`
+Select View using animated sliding of one view to the next.
+Hardware acceleration for mobile is also supported, enable it via the included CSS.
+
+### `closeModal(modal_id) // StackView.Modal only`
+Close via animation the currently opened modal window
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### `selectView()`
 Returns the currently "active" view to be rendered in the view port.
