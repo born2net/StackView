@@ -11,9 +11,13 @@ The only library requirements are backbone.js and any version of jQuery.
 
 ## Demo:
 I built a real SPA (Single Page Application) using the StackView class.
-In fact, it's a really nice boilerplate Backbone application that uses everything one needs in an App including (of course) StackViews, Login, Localization, Cookie and more.
-View the Demo StackView app here: https://secure.digitalsignage.com/boilerplate/public/index.html
-and for Backbone Boiler application source code go here: https://github.com/born2net/Backbone-boilerplate-and-StackView
+In fact, it's a really nice boilerplate Backbone application that uses everything one needs in an App including (of course) StackViews, bootstrap (supports mobile scaling) Login, Localization, Cookie and a lot more.
+
+View the Demo StackView app here:
+https://secure.digitalsignage.com/boilerplate/public/index.html
+
+For Backbone Boiler application source code go here:
+https://github.com/born2net/Backbone-boilerplate-and-StackView
 
 
 ## Backbone.StackView.ViewPort
@@ -252,39 +256,5 @@ Hardware acceleration for mobile is also supported, enable it via the included C
 ### `closeModal(modal_id)`
 StackView.Modal only, close via animation the currently opened modal window
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### `selectView()`
-Returns the currently "active" view to be rendered in the view port.
-
-License:
-------------------------------------------------------------------------
-- The SignageStudio Web Lite and Pepper SDK are available under GPL V3 3 https://github.com/born2net/signagestudio_web-lite/blob/master/LICENSE
 
 
