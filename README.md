@@ -1,7 +1,7 @@
 Backbone.StackView
 ====
 
-Easy to use, powerful, Single Page App View manager
+Easy & powerful, Single Page App View manager
 ---
 
 Backbone.StackView is a Backbone plugin for managing views using sliding, popup and fade transitions between Backbone views.
@@ -32,6 +32,7 @@ Next you can add Backbone.Views to myStackView as in:
 var view1 = new BB.View({el: '#somePanel1'});
 var view2 = new BB.View({el: '#somePanel2'});
 var view3 = new BB.View({el: '#somePanel3'});
+
 myStackView.addView(view1);
 myStackView.addView(view2);
 myStackView.addView(view3);
@@ -45,10 +46,26 @@ myStackView.selectView(view1);
 or if you would rather select a view using it's element id you can do that as well:
 
 ```javascript
-myStackView.selectView('#somePanel1);
+myStackView.selectView('#somePanel1');
 ```
 
-This will allow you to easily select vanilla Backbone.views, and these views can reside anywhere in the DOM, and StackView will simply hide or show (or slide or popup) the selectedView.
+This will allow you to easily select vanilla Backbone.views, and these views can reside anywhere in the DOM (if you are using Fader) and StackView will simply hide or show the selected Backbone.View.
+
+StackView base class holds a list of all Views is manages so you can always ask for a view by its ID. StackView will also fire an event when a View is selected and pass in the even the selected view instance so subscribers can handle the event.
+Here is an example of a Backbone subscriber that's interested only in SELECTED_STACK_VIEW events that are "intended for him":
+
+```javascript
+listenWhenIamBroghtIntoView: function () {
+   var self = this;
+   self.listenTo(someStackView, 'SELECTED_STACK_VIEW', function (e) {
+       if (e == self)
+           self.render();
+   });
+   ...
+},
+```
+
+
 
 
 
