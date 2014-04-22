@@ -116,6 +116,111 @@ _initModal: function () {
 
 ```
 
+Here is an example of StackView.Slider view.
+We use constants in place of element IDs just to keep it from referencing it in source code, you don't have to.
+
+
+
+```javascript
+
+
+/**
+ Select new screen layout (template) for a campaign > timeline
+ @class ScreenLayoutSelectorView
+ @constructor
+ @return {Object} instantiated ScreenLayoutSelectorView
+ **/
+define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
+
+    var ScreenLayoutSelectorView = BB.View.extend({
+
+        /**
+         Constructor
+         @method initialize
+         **/
+        initialize: function () {
+            var self = this;
+            self.m_screens = [];
+
+            self.listenTo(self.options.stackView, BB.EVENTS.SELECTED_STACK_VIEW, function (e) {
+                if (e == self) {
+                    self._render();
+                }
+            });
+
+            $(this.el).find(Elements.PREVIOUS).on('click', function (e) {
+                if (self.options.from == null)
+                    return;
+                self.options.stackView.slideToPage(self.options.from, 'left');
+                return false;
+            });
+        }
+    });
+
+    return ScreenLayoutSelectorView;
+});
+
+
+
+define(['jquery', 'backbone'], function ($, Backbone) {
+
+    var ResolutionSelectorView = BB.View.extend({
+
+        /**
+         Constructor
+         @method initialize
+         **/
+        initialize: function () {
+            var self = this;
+
+            $(this.el).find(Elements.PREVIOUS).on('click', function (e) {
+                if (self.options.from == null)
+                    return;
+                self.options.stackView.slideToPage(self.options.from, 'left');
+                return false;
+            });
+        },
+
+        /**
+         Draw the UI for resolution selection
+         @method render
+         **/
+        render: function () {
+        }
+
+    });
+
+    return ResolutionSelectorView;
+
+});
+
+  var self = this;
+
+  Elements.ORIENTATION_SELECTOR = '#orientationSelector';
+  Elements.RESOLUTION_SELECTOR = '#resolutionSelector';
+  Elements.SCREEN_LAYOUT_SELECTOR = '#screenLayoutSelector';
+
+ self.m_resolutionSelectorView = new ResolutionSelectorView({
+      stackView: self.m_campaignSliderStackView,
+      from: Elements.ORIENTATION_SELECTOR,
+      el: Elements.RESOLUTION_SELECTOR,
+      to: Elements.SCREEN_LAYOUT_SELECTOR,
+      model: new BB.Model({screenResolution: null})
+  });
+
+  self.m_screenLayoutSelectorView = new ScreenLayoutSelectorView({
+      stackView: self.m_campaignSliderStackView,
+      from: Elements.RESOLUTION_SELECTOR,
+      el: Elements.SCREEN_LAYOUT_SELECTOR,
+      to: Elements.CAMPAIGN,
+      model: new BB.Model({screenLayout: null})
+  });
+
+  self.m_campaignSliderStackView.addView(self.m_resolutionSelectorView);
+  self.m_campaignSliderStackView.addView(self.m_screenLayoutSelectorView);
+  self.m_campaignSliderStackView.selectView(self.m_campaignSelectorView);
+```
+
 And as mentioned earlier, a Backbone.StackView comes in three flavours, Fade, Slide and Popup. You can watch all 3 in the demo SPA link.
 
 ## StackView API
@@ -132,15 +237,15 @@ Find a registered backbone view by its id or cid
 ### `selectView(i_view)`
 Select a view to present in the DOM, implementation varies per derived class
 
-### `selectIndex(i_index) // StackView.Fader only`
-Select a stack view using an offset index
+### `selectIndex(i_index)`
+StackView.Fader only, Select a stack view using an offset index
 
-### `slideToPage(i_toView, i_direction) // StackView.SlideView only`
-Select View using animated sliding of one view to the next.
+### `slideToPage(i_toView, i_direction)`
+StackView.SlideView only, select View using animated sliding of one view to the next.
 Hardware acceleration for mobile is also supported, enable it via the included CSS.
 
-### `closeModal(modal_id) // StackView.Modal only`
-Close via animation the currently opened modal window
+### `closeModal(modal_id)`
+StackView.Modal only, close via animation the currently opened modal window
 
 
 
