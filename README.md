@@ -1,4 +1,4 @@
-SignageStudio Web Lite
+1ignageStudio Web Lite
 ======================
 current version: 0.9.27 dev-build
 
