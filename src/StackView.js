@@ -7,16 +7,10 @@
  **/
 define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
 
-    /**
-     EVent fired when a view is selected
-     @event SELECTED_STACK_VIEW
-     @static
-     @final
-     **/
-    BB.EVENTS.SELECTED_STACK_VIEW = 'SELECTED_STACK_VIEW';
 
-    var StackView = BB.StackView = {};
-    StackView.ViewPort = BB.View.extend({
+    var StackView = Backbone.StackView = {};
+
+    StackView.ViewPort = Backbone.View.extend({
 
         /**
          Constructor
@@ -25,6 +19,9 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
         initialize: function () {
             this.m_views = {};
             this.m_selectedView = {};
+
+            // Event
+            this.SELECTED_STACK_VIEW = 'SELECTED_STACK_VIEW';
         },
 
         /**
@@ -73,7 +70,7 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
          **/
         selectView: function (i_view) {
             this.m_selectedView = this._parseView(i_view);
-            this._notifySubsribers(i_view);
+            this._notifySubscribers(i_view);
         },
 
         /**
@@ -88,9 +85,10 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
             return i_view;
         },
 
-        _notifySubsribers: function(i_view){
+        _notifySubscribers: function(i_view){
+            var self = this;
             var view = this._parseView(i_view);
-            this.trigger(BB.EVENTS.SELECTED_STACK_VIEW, view);
+            this.trigger(self.SELECTED_STACK_VIEW, view);
         }
 
     });
@@ -143,7 +141,7 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
             i_toView = self._parseView(i_toView);
             if (i_toView==self.m_selectedView)
                 return;
-            self._notifySubsribers(i_toView);
+            self._notifySubscribers(i_toView);
             i_toView.$el.show();
             // toView.el.offsetWidth;
             // Position the new page at the starting position of the animation
@@ -191,7 +189,7 @@ define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
             if (self.m_selectedView==bb_view)
                 return;
 
-            // stop previous animation on previosuly selected view
+            // stop previous animation on previously selected view
             if (self.m_selectedView.el)
                 self.m_selectedView.$el.stop();
 

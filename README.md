@@ -1,64 +1,51 @@
-SignageStudio Web Lite
-======================
+Backbone.StackView
+====
 
-The world's only enterprise level, open source, 100% FREE, Digital Signage platform
-------------------------------------------------------------------------
+Create a single Page Application with Backbone.StackView
+---
 
-With SignageStudio Lite you can have a Digital Signage solution that is just the way you like it. Take the source code, modify it, brand it and build a product that's right for you and your customers.
-Best of all, you will take full advantage of the world's most popular Digital Signage cloud so you don't have to worry about backend programming or even setup a server, it's all done for you using the mediaCLOUD.
+Backbone.StackView is a Backbone plugin for managing views and view transitions.
+It has a simple programming interface that allows a developer to manage all Views in a Single Page Application with ease.
 
- - Based on the poplar SignageStudio ( [MediaSignage]: http://www.DigitalSignage.com )
- - Connected to a private mediaSERVER or the public mediaCLOUD
- - 100% open source based on GNU V3 license
- - Contributors are welcome, fork and notify
+The only requirements are backbone.js and any version of jQuery.
 
-Links:
-------------------------------------------------------------------------
-- Working site: https://secure.dynawebs.net/_studiolite-dist/studiolite.html
-- Home page: http://www.digitalsignage.com/_html/signagestudio_lite.html
-- SignageStudio Web Lite on-line documentation: http://www.digitalsignage.com/msdocs/
-- Pepper / Jalapeno SDK on-line documentation: http://www.digitalsignage.com/msdocs/classes/Pepper.html
-- Support: http://script.digitalsignage.com/forum/index.php/board,9.0.html
-- Dev video Pepper / Jalapeno SDK: http://www.digitalsignage.com/_html/signage_video.html?videoNumber=opensource
-- StudioLite Video: http://www.digitalsignage.com/_html/signage_video.html?videoNumber=StudioLite
-- Development page: http://www.digitalsignage.com/_html/open_source_digital_signage.html
+## Backbone.StackView.ViewPort
+
+A ViewPort is a Backbone.View responsible for rendering other views inside of it (one at a time) and serves as a base class for other Backbone.StackView sub-classes.
+Normally you will not instantiate Backbone.StackView.ViewPort directly but instead use on of it's derived classed:
+- StackView.Slider
+- StackView.Fader
+- StackView.Modal
 
 
-Technical data:
-------------------------------------------------------------------------
-- Build on top Backbone js with a clean MV* design
-- Includes jQuery, Underscore as base libs
-- Powered by Bootstrap using responsive design for phones, tablets and desktops
-- Runs with require js for on demand modulated loading
-- Driven using Soap API and includes Helper SDK
-- Uses a local msdb (database) through SDK for offline work
-- Available as obfuscated and raw source
-- Support available through the MediaSignage support forum
+```javascript
+/**
+ The Core Application StackView between main modules (campaign / resources / settings etc)
+ @class AppContentFaderView
+ @constructor
+ @return {object} instantiated AppContentFaderView
+ **/
+define(['jquery', 'backbone', 'StackView'], function ($, Backbone, StackView) {
 
-Installation:
-------------------------------------------------------------------------
-- Download the zip from GitHub
-- On your web server create a root directory and name it: _studiolite-dev
-- Unzip all files into _studiolite-dev directory
-- Point browser to: [YOUR_SERVER]/_studiolite-dev/studiolite.html (IMPORTANT: make sure _studiolite-dev is in the root of web server)
+    Backbone.SERVICES.APP_CONTENT_FADER_VIEW = 'AppContentFaderView';
 
-Customization:
-------------------------------------------------------------------------
-Keep in mind the SignageStudio lite as well as its related SDK Pepper are undergoing daily development and so you will lose any changes you make to your code if you overwrite it with our release builds.
+    var AppContentFaderView = Backbone.StackView.Fader.extend({
 
-To overcome this you can follow these guidelines:
+        /**
+         Constructor
+         @method initialize
+         **/
+        initialize: function () {
+            Backbone.StackView.ViewPort.prototype.initialize.call(this);
+        }
+    });
 
-1.	Always be sure to override files and not modify the original source file. This is true for both CSS and JavaScript code. Simply load your version of the CSS after ours to apply your latest changes. HTML files can be diffed (see below).
-2.	Our code base is modulated and uses 100% object oriented design pattern. This allows you to sub class (aka inherit) from our classes and make your applied changes (use _.extend to mixin).
-3.	You can also use pre-processor scripts which replace code segments automatically using directives.
-4.	And finally, even while following steps 1-3 you may find that your code is broken due to design changes in the original repository. That’s when GitHub comes to the rescue. When your fork the source repository, you can always merge the tree onto your forked project. Use source control diff tool to merge the changes into your code and resolve any conflicts.
+    return AppContentFaderView;
+});
+```
 
-With the above steps you can ensure that your source code is fully customizable while still keeping it synchronized with our ongoing development efforts.
-And of you built something wonderful, just send us a pull request and we can evaluate it. If we like what you did we we will merge it into our code base, so you will always receive it when you fetch our changes.
-
-If you are not a developer you can hire professional, inexpensive help from sites like oDesk and Freelancer. Just post you are looking for a JavaScript, jQuery, Backbone experienced developer.
-
-
+### `selectView()`
+Returns the currently "active" view to be rendered in the view port.
 
 License:
 ------------------------------------------------------------------------
