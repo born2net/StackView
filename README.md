@@ -61,6 +61,18 @@ myStackView.selectView('#somePanel1');
 ```
 
 This will allow you to easily select vanilla Backbone.views, and these views can reside anywhere in the DOM (if you are using Fader) and StackView will simply hide or show the selected Backbone.View.
+Now what is so cool (and may not be evident right away when reading the these docs) is that because you can select views via a View's instance (such as 'this' or someViewInstanceMember) as well as via its element id (#someID) you don't have to pass references to other sections of the code in order to select the view.
+In other words, what I normally do in a SPA, is I register a StackView as a service (using the ComBroker) and other parts of the code simple ask for that service.
+Once they get an instance of the StackView service, they can simply call on it to select a view using a hard coded element id as in:
+
+```javascript
+// get a the StackView service anywhere inside your app
+self.m_stackFaderView = BB.comBroker.getService(BB.SERVICES['SCENE_FADER_VIEW']);
+...
+// Select a particular view, so easy ... and keeps with separation of concern
+self.m_stackFaderView.selectView('#someID');
+
+},
 
 StackView base class holds a list of all Views is manages so you can always ask for a view by its ID. StackView will also fire an event when a View is selected and pass in the even the selected view instance so subscribers can handle the event.
 Here is an example of a Backbone subscriber that's interested only in SELECTED_STACK_VIEW event that are "intended for him":
